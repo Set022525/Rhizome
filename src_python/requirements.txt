@@ -1,0 +1,9 @@
+git+https://github.com/boudinfl/pke.git
+ginza
+ja-ginza
+nltk
+scipy
+
+# 以下は python -m で 実行
+# spacy download ja_core_news_sm
+# nltk.downloader stopwords
