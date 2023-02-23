@@ -5,7 +5,5 @@ nltk==3.8.1
 scipy==1.10.1
 functions_framework==3.3.0
 firebase_admin==6.1.0
-
-# 以下は python -m で 実行
-# spacy download ja_core_news_sm
-# nltk.downloader stopwords
+uvicorn
+fastapi
