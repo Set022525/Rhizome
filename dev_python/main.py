@@ -1,5 +1,4 @@
 import os
-import functions_framework
 from fastapi import FastAPI
 import firebase_admin
 from firebase_admin import credentials
@@ -40,6 +39,7 @@ def get_texts(id):
 
     return text_list
 
+create_certificate()
 
 pke.base.stopwords['ja_ginza_electra'] = 'japanese'
 stopwords = list(ja.STOP_WORDS)
@@ -95,11 +95,15 @@ def make_graph_data(strs):
 
 @app.get("/")
 def main(id: str):
-    create_certificate()
     text_list = get_texts(id)
     if not text_list:
         return {"nodes": json.dumps({}), "links": json.dumps({})}
 
+    print("start to make graph")
     graph_data = make_graph_data(text_list)
 
     return graph_data
+
+
+# text_list = get_texts("0de85ff5-d569-4ebe-a2d0-5a9a4e723238")
+# print(text_list)
