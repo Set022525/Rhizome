@@ -1,7 +1,7 @@
 export type GraghNode = {
   id: string
   group: number
-  text: string
+  text: string[]
 }
 
 export type GraghLink = {
@@ -32,18 +32,18 @@ export type MyNodeObject = object & {
   fz?: number
   __bckgDimensions?: number[]
   color?: string
-  text?: string
+  text?: string[]
   neighbors?: MyNodeObject[]
 }
 
 export const defaultNode: GraghNode = {
   id: "",
   group: 0,
-  text: ""
+  text: [""]
 }
 
 
-export const sampleData: GraphData = {
+const sampleData = {
   "nodes": [
     {"id": "Myriel", "group": 1, "text": "これはグループ1です"},
     {"id": "Napoleon", "group": 1, "text": "これはグループ1です"},

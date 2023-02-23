@@ -56,8 +56,8 @@ export default function Detail( {open, setOpen, node, nodes, links, setNode, gra
           <Typography variant="h4" fontWeight="bold">{node.id ? node.id : "キーワード"}</Typography>
           <Box sx={{width: "100%", height: "5px", mb: 4}} bgcolor={node.color ? node.color : "black.main"}></Box>
           <Typography variant="h6" fontWeight="bold" mb={1}>会話の内容</Typography>
-          <Typography variant="body2" color="text.main">{node.text ? node.text : "結果がありません"}</Typography>
-          <Typography variant="h6" fontWeight="bold" mt={4} mb={1}>関連キーワード</Typography>
+          {node.text ? (node.text.map((t) => <Typography variant="body2" color="text.main" mb={2} key={t}>{t}</Typography>)) : <Typography variant="body2" color="text.main" mb={2}>結果がありません</Typography>}
+          <Typography variant="h6" fontWeight="bold" mt={2} mb={1}>関連キーワード</Typography>
           <Box sx={{display: "flex", flexDirection: "row", flexWrap: "wrap"}}>
             {neighbors.map((neighbor) => {
               return (

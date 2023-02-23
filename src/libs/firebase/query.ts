@@ -9,6 +9,7 @@ export async function pushByRefDB( //using
   const key = push(ref(db, path)).key
   updates[path+ "/" +key] = content
   update(ref(db), updates)
+  return key
 }
 
 export async function updateByQueryDB( // using

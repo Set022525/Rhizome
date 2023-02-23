@@ -5,6 +5,7 @@ import MicIcon from '@mui/icons-material/Mic'
 import MicOffIcon from '@mui/icons-material/MicOff'
 import { database } from "libs/firebase/firebase"
 import { pushByRefDB, updateByQueryDB } from "libs/firebase/query"
+import { v4 as uuidv4 } from 'uuid'
 
 type PostData = {
   group: number
@@ -21,9 +22,15 @@ type Props = {
 
 export default function Recognition( {interimText, setInterimText, finalText, setFinalText}: Props ) {
   const { interimTranscript, finalTranscript, listening, resetTranscript } = useSpeechRecognition()
+  const [ id, setId ] = useState<string>("")
   const [ group, setGroup ] = useState<number>(-1)
+  const [ preText, setPreText] = useState<string>("") //一つ前のグループまでのfinalText
   const [ textCount, setTextCount ] = useState<number>(0)
   const db = database
+
+  useEffect(() => {
+    setId(uuidv4())
+  },[])
 
   useEffect(() => {
     setInterimText(interimTranscript)
@@ -35,16 +42,17 @@ export default function Recognition( {interimText, setInterimText, finalText, se
 
   useEffect(() => {
     setFinalText(finalTranscript)
+    const groupText = finalTranscript.substring(preText.length)
     const postData: PostData = {
       group: group,
-      content: finalText,
+      content: groupText,
     }
     console.log("textCount", textCount)
     if (group != -1) {
       if (textCount == 0) {
-        pushByRefDB(db, "texts", postData)
+        pushByRefDB(db, `${id}/texts`, postData)
       } else {
-        updateByQueryDB(db, "texts", "group", group, "", postData)
+        updateByQueryDB(db, `${id}/texts`, "group", group, "", postData)
       }
       setTextCount((old) => old + 1)
     }
@@ -55,6 +63,7 @@ export default function Recognition( {interimText, setInterimText, finalText, se
       SpeechRecognition.stopListening()
     } else {
       setGroup((old) => old+1)
+      setPreText(finalTranscript)
       console.log("group", group)
       setTextCount(0)
       SpeechRecognition.startListening({ continuous: true, language: "ja"})
