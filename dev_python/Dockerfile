@@ -29,8 +29,7 @@ ENV PYTHONPATH=/app/utils:$PYTHONPATH
 WORKDIR /app
 
 RUN pip install -U pip &&\
-    pip install --no-cache-dir git+https://github.com/boudinfl/pke.git ginza==5.1.2 ja-ginza==5.1.2 nltk==3.8.1 scipy==1.10.1 functions_framework==3.3.0 firebase_admin==6.1.0 uvicorn fastapi
-    
+    pip install --no-cache-dir git+https://github.com/boudinfl/pke.git ginza==5.1.2 ja-ginza==5.1.2 nltk==3.8.1 scipy==1.10.1 functions_framework==3.3.0 firebase_admin==4.5.1 uvicorn fastapi
 RUN python3 -m spacy download ja_core_news_sm
 
 WORKDIR /root/nltk_data/corpora

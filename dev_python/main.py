@@ -90,7 +90,7 @@ def make_graph_data(strs):
             if similarity >= 0.1: # ある程度関連度がある場合
                 link = {"source": nodes[i]["id"], "target": nodes[j]["id"], "value": similarity}
                 links.append(link)
-    return {"nodes": json.dumps(nodes), "links": json.dumps(links)}
+    return {"nodes": json.dumps(nodes, ensure_ascii=False), "links": json.dumps(links, ensure_ascii=False)}
 
 
 @app.get("/")
