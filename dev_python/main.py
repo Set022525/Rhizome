@@ -38,13 +38,10 @@ def get_texts(id):
     if text_data is None:
         return []
 
-    text_list = [{"text": text_data[i]["content"], "group": text_data[i]["group"]} for i in sorted(text_data)] 
-
-    # text_list = []
-    # text_list.append({"text": "神奈川県横須賀市とJCB、トッパン・フォームズは、大規模な災害発生による通信障害や電源途絶を想定し、マイナンバーカードアプリケーション搭載システムを活用したオフライン環境下でのキャッシュレス決済システムの実証実験を横須賀市で開始する。開始時期は2023年3月11日以降。", "group": 0})  
-    # text_list.append({"text": "今年4月以降、マイナンバーカードを保険証として利用するためのシステムの導入を医療機関が義務付けられているのは違法だとして都内の医師ら274人が国に対して、義務がないことの確認を求める訴えを起こしました。", "group": 1})
-    # text_list.append({"text": "4月に札幌市である主要7カ国（G7）気候・エネルギー・環境相会合で、議長国日本がとりまとめる共同声明の「たたき台」が判明した。東京電力福島第一原発の処理水問題について「放出に向けた透明性のあるプロセスを歓迎する」、除染土を再利用する計画の「進捗（しんちょく）を歓迎する」とする表現を盛り込もうと、各国と調整している。いずれも国内で慎重論が根強い問題だが、主要国の支持を得る狙いがあるとみられる。", "group": 2})
-
+    text_list = []
+    for i in text_data:
+        text_list += [{"text": content, "group": text_data[i]["group"]} for content in text_data[i]["contents"]]
+    # print(text_list)
 
     return text_list
 
@@ -77,6 +74,18 @@ def get_similarity(s1, s2):
     return doc1.similarity(doc2)
 
 
+# 句点が入っていない場合、各文末に「。」を追加する
+def add_period(s):
+    words = []
+    doc = nlp(s)
+    for token in doc:
+        words.append(token.orth_)
+        if token.is_sent_end and token.pos_ != "PUNCT":
+            words.append("。")
+
+    return "".join(words)
+
+
 # 文字列が入った配列 → nodesとlinksを作る
 def make_graph_data(strs):
     nodes = []
@@ -87,17 +96,17 @@ def make_graph_data(strs):
             continue
         for i_node in range(len(nodes)):
             if nodes[i_node]["id"] == word:
-                nodes[i_node]["texts"].append(strs[i]["text"])
+                nodes[i_node]["texts"].append(add_period(strs[i]["text"]))
                 break
         else:
-            node = {"id": word, "group": strs[i]["group"], "texts": [strs[i]["text"]]}
+            node = {"id": word, "group": strs[i]["group"], "texts": [add_period(strs[i]["text"])]}
             nodes.append(node)
     # print(keywords)
     for i in range(len(nodes)):
         for j in range(i+1, len(nodes)):
             similarity = get_similarity(nodes[i]["texts"][0], nodes[j]["texts"][0])
-            if similarity >= 0.1: # ある程度関連度がある場合
-                link = {"source": nodes[i]["id"], "target": nodes[j]["id"], "value": similarity}
+            if similarity >= 0.5: # ある程度関連度がある場合
+                link = {"source": nodes[i]["id"], "target": nodes[j]["id"], "value": (similarity - 0.5) * 2}
                 links.append(link)
     return {"nodes": json.dumps(nodes, ensure_ascii=False), "links": json.dumps(links, ensure_ascii=False)}
 
@@ -108,7 +117,7 @@ def main(id: str):
     if not text_list:
         return {"nodes": json.dumps({}), "links": json.dumps({})}
 
-    print("start to make graph")
+    # print("start to make graph")
     graph_data = make_graph_data(text_list)
 
     return graph_data
