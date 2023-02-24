@@ -21,7 +21,7 @@ type Props = {
 }
 
 export default function Recognition( {setData}: Props ) {
-  const { interimTranscript, finalTranscript, listening, resetTranscript } = useSpeechRecognition()
+  const { interimTranscript, finalTranscript, listening } = useSpeechRecognition()
   const [interimText, setInterimText] = useState<string>("")
   const [finalText, setFinalText] = useState<string>("")
   const [ group, setGroup ] = useState<number>(0)
@@ -45,8 +45,9 @@ export default function Recognition( {setData}: Props ) {
         }
       )
       console.log("res", res)
-      if (res && res.data.nodes != "{}") {
+      if (res && res.data.nodes != "[]") {
         const raw = res.data
+        console.log("raw", raw)
         const nodes: GraghNode[] = JSON.parse(raw.nodes)
         const links: GraghLink[] = JSON.parse(raw.links)
         const data_: GraphData = {nodes, links}
