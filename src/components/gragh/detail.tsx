@@ -62,7 +62,7 @@ export default function Detail( {open, setOpen, node, nodes, links, setNode}: Pr
               return (
                 <Box key={neighbor.id} sx={{m: 1}}>
                   <Button variant="contained" color="secondary" sx={{bgcolor: `${neighbor.color}`}} onClick={() => handleNeighborClick(neighbor)}>
-                    <Typography>{neighbor.id}</Typography>
+                    <Typography fontWeight="bold">{neighbor.id}</Typography>
                   </Button>
                 </Box>
               )
