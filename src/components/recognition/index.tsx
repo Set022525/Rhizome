@@ -44,7 +44,8 @@ export default function Recognition( {setData}: Props ) {
           return
         }
       )
-      if (res) {
+      console.log("res", res)
+      if (res && res.data.nodes != "{}") {
         const raw = res.data
         const nodes: GraghNode[] = JSON.parse(raw.nodes)
         const links: GraghLink[] = JSON.parse(raw.links)
