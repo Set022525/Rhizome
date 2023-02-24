@@ -2,6 +2,7 @@ FROM ubuntu:20.04
 
 RUN apt-get update && apt-get install -y tzdata
 ENV TZ=Asia/Tokyo 
+ENV NLTK_DATA=/root/nltk_data
 
 RUN apt-get update && apt-get install -y \
     openssh-client \
@@ -32,10 +33,16 @@ RUN pip install -U pip &&\
     pip install --no-cache-dir git+https://github.com/boudinfl/pke.git ginza==5.1.2 ja-ginza==5.1.2 nltk==3.8.1 scipy==1.10.1 functions_framework==3.3.0 firebase_admin==4.5.1 uvicorn fastapi
 RUN python3 -m spacy download ja_core_news_sm
 
+# for NLTK manual download
+WORKDIR /usr/local/nltk_data/tokenizers
+RUN wget "https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/tokenizers/punkt.zip" -O punkt.zip
+RUN unzip punkt.zip
+
 WORKDIR /root/nltk_data/corpora
 RUN wget "https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/stopwords.zip" -O stopwords.zip
 RUN unzip stopwords.zip
 # RUN python3 -m nltk.downloader stopwords
+
 
 EXPOSE 8080
 

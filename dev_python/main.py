@@ -8,10 +8,19 @@ import spacy
 import pke
 from spacy.lang import ja
 import json
+from starlette.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
 
+# CORSを回避するために追加
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,   # 追記により追加
+    allow_methods=["*"],      # 追記により追加
+    allow_headers=["*"]       # 追記により追加
+)
 
 def create_certificate():
     # /app/credecial.jsonに秘密鍵を入れておく

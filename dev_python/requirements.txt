@@ -1,4 +1,5 @@
 git+https://github.com/boudinfl/pke.git
+spacy==3.4.1
 ginza==5.1.2
 ja-ginza==5.1.2
 nltk==3.8.1
