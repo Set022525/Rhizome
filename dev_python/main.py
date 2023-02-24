@@ -115,7 +115,7 @@ def make_graph_data(strs):
 def main(id: str):
     text_list = get_texts(id)
     if not text_list:
-        return {"nodes": json.dumps({}), "links": json.dumps({})}
+        return {"nodes": json.dumps([]), "links": json.dumps({})}
 
     # print("start to make graph")
     graph_data = make_graph_data(text_list)
