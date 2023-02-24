@@ -1,7 +1,7 @@
 export type GraghNode = {
   id: string
   group: number
-  text: string[]
+  texts: string[]
 }
 
 export type GraghLink = {
@@ -32,18 +32,63 @@ export type MyNodeObject = object & {
   fz?: number
   __bckgDimensions?: number[]
   color?: string
-  text?: string[]
+  texts?: string[]
   neighbors?: MyNodeObject[]
 }
 
 export const defaultNode: GraghNode = {
   id: "",
   group: 0,
-  text: [""]
+  texts: [""]
 }
 
 
-const sampleData = {
+export const sampleData: GraphData = {
+  "nodes": [
+    {
+      "id": "広く 浅く バーツ",
+      "group": 0,
+      "texts": [
+        "一度と広く浅くバーツと書いてもらっても、ここに対してもう一段階、段階がないもの1回作り直して真っ直してるんだけど理解して行こうか無理して行こうか"
+      ]
+    },
+    {
+      "id": "350",
+      "group": 1,
+      "texts": [
+        " 追加で聞きたい内容は何なんかつけてくれ南向永久 一度これ送ろうかな350グラムそれぞれ皆さん忙しいと話す時間調整できないから暇時間"
+      ]
+    },
+    {
+      "id": "レベル",
+      "group": 2,
+      "texts": [
+        " 30分も取れないレベル"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "source": "広く 浅く バーツ",
+      "target": "350",
+      "value": 0.908674130210417
+    },
+    {
+      "source": "広く 浅く バーツ",
+      "target": "レベル",
+      "value": 0.8358358093745031
+    },
+    {
+      "source": "350",
+      "target": "レベル",
+      "value": 0.8122062608594988
+    }
+  ]
+}
+
+
+
+const ampleData = {
   "nodes": [
     {"id": "Myriel", "group": 1, "text": "これはグループ1です"},
     {"id": "Napoleon", "group": 1, "text": "これはグループ1です"},

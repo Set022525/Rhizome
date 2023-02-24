@@ -1,7 +1,7 @@
 import { Box } from "@mui/material"
 import { defaultNode, GraphData, MyNodeObject } from "components/gragh/data"
 import loadable from '@loadable/component'
-import { Fragment, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import SpriteText from "three-spritetext"
 import Detail from "./detail"
 
@@ -45,7 +45,7 @@ export default function Gragh( {data}: GraghProps ) {
         <Button onClick={() => setGraghType(2)}><Typography color="white.main" fontWeight="bold">VR</Typography></Button>
       </Box> */}
       <Box>
-        <Detail open={detailOpen} setOpen={setDetailOpen} node={node} nodes={data.nodes} links={data.links} setNode={setNode} graghRef={graghRef} />
+        <Detail open={detailOpen} setOpen={setDetailOpen} node={node} nodes={data.nodes} links={data.links} setNode={setNode} />
       </Box>
       <Box>
         <ForceGraph3D

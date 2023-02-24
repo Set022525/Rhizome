@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material'
 import SwipeableDrawer from '@mui/material/SwipeableDrawer'
-import { Dispatch, MutableRefObject, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { GraghLink, GraghNode, MyNodeObject } from './data'
 
 type Props = {
@@ -10,10 +10,9 @@ type Props = {
   nodes: GraghNode[]
   links: GraghLink[]
   setNode: Dispatch<SetStateAction<MyNodeObject>>
-  graghRef: MutableRefObject<any>
 }
 
-export default function Detail( {open, setOpen, node, nodes, links, setNode, graghRef}: Props ) {
+export default function Detail( {open, setOpen, node, nodes, links, setNode}: Props ) {
   const [ neighbors, setNeighbors ] = useState<MyNodeObject[]>([])
 
   useEffect(() => {
@@ -56,7 +55,7 @@ export default function Detail( {open, setOpen, node, nodes, links, setNode, gra
           <Typography variant="h4" fontWeight="bold">{node.id ? node.id : "キーワード"}</Typography>
           <Box sx={{width: "100%", height: "5px", mb: 4}} bgcolor={node.color ? node.color : "black.main"}></Box>
           <Typography variant="h6" fontWeight="bold" mb={1}>会話の内容</Typography>
-          {node.text ? (node.text.map((t) => <Typography variant="body2" color="text.main" mb={2} key={t}>{t}</Typography>)) : <Typography variant="body2" color="text.main" mb={2}>結果がありません</Typography>}
+          {node.texts ? (node.texts.map((t) => <Typography variant="body2" color="text.main" mb={2} key={t}>{t}</Typography>)) : <Typography variant="body2" color="text.main" mb={2}>結果がありません</Typography>}
           <Typography variant="h6" fontWeight="bold" mt={2} mb={1}>関連キーワード</Typography>
           <Box sx={{display: "flex", flexDirection: "row", flexWrap: "wrap"}}>
             {neighbors.map((neighbor) => {
